@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSA ATTENDANCE SYSTEM</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-600 to-gray-800">
+    
+    <div class="bg-white p-10 rounded-lg shadow-lg text-center w-96">
+        <div class="brand mb-4">
+            <div class="brand-logo">
+              <img src="static/logo.jpg" alt="Logo" class="w-24 h-24 mx-auto" />
+            </div>
+        </div>
+        <h2 class="text-2xl font-semibold mb-4">DSA Clock-In Scanner</h2>
+        <img id="video feed" src="/static/pexels-frank-k-1851253.jpg" alt="video feed" class="w-48 h-48  mx-auto bg-gray-400" />
+        <div class="staff-details mt-5">
+            <p class="mb-2"><strong>Name:</strong> <span id="staff-name">N/A</span></p>
+            <p class="mb-2"><strong>RFID Code:</strong> <span id="staff-rfid">N/A</span></p>
+            <p class="mb-2"><strong>Time:</strong> <span id="clock-time">N/A</span></p>
+        </div>
+    </div>
+
+    <script>
+        function updateStaffDetails(photoSrc, name, rfid) {
+            document.getElementById("staff-photo").src = photoSrc;
+            document.getElementById("staff-name").textContent = name;
+            document.getElementById("staff-rfid").textContent = rfid;
+            document.getElementById("clock-time").textContent = new Date().toLocaleTimeString();
+        }
+
+        // Example usage (Replace this with actual scanner and camera integration)
+        setTimeout(() => {
+            updateStaffDetails("staff1.jpg", "John Doe", "123456789");
+        }, 3000);
+    </script>
+</body>
+</html>

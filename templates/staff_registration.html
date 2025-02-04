@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="scrp.js"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white text-lg font-semibold">
+                <img src="static/logo.png" alt="Logo" class="h-8 inline-block">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Staff Registration</h3>
+            <form class="space-y-4" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block text-gray-600">First Name</label>
+                        <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="firstname" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-gray-600">Last Name</label>
+                        <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="lastname" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block text-gray-600">Directorate</label>
+                        <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="directorate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="block text-gray-600">Staff ID</label>
+                        <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="staff_id" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="block text-gray-600">Appointment</label>
+                    <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="appointment" required>
+                </div>
+                <div class="form-group">
+                    <label class="block text-gray-600">Upload Picture 1</label>
+                    <input type="file" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="picture1" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label class="block text-gray-600">Upload Picture 2</label>
+                    <input type="file" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="picture2" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label class="block text-gray-600">Upload Picture 3</label>
+                    <input type="file" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="picture3" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label class="block text-gray-600">RFID Tag</label>
+                    <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded w-full" id="rfid_tag" required>
+                </div>
+                <div class="flex justify-between mt-4">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="mdi mdi-file-check"></i> Submit
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" onclick="resetForm()">
+                        <i class="mdi mdi-reload"></i> Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="res" class="mt-4"></div>
+    </div>
+
+    <script>
+        async function validateForm() {
+            const picture1 = document.getElementById('picture1').files.length;
+            const picture2 = document.getElementById('picture2').files.length;
+            const picture3 = document.getElementById('picture3').files.length;
+            const rfidTag = document.getElementById('rfid_tag').value.trim();
+            
+            if (picture1 !== 1 || picture2 !== 1 || picture3 !== 1 || !rfidTag) {
+                document.getElementById('picture-error').style.display = 'block';
+                return false;
+            }
+            document.getElementById('picture-error').style.display = 'none';
+            await registerRFID(rfidTag);
+            return true;
+        }
+
+        async function registerRFID(rfidTag) {
+            const firstname = document.getElementById('firstname').value.trim();
+            const lastname = document.getElementById('lastname').value.trim();
+            const directorate = document.getElementById('directorate').value.trim();
+            const staffId = document.getElementById('staff_id').value.trim();
+            const appointment = document.getElementById('appointment').value.trim();
+
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    firstname: firstname,
+                    lastname: lastname,
+                    directorate: directorate,
+                    staffId: staffId,
+                    appointment: appointment,
+                    rfidTag: rfidTag
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('res').innerHTML = `<p class="text-green-500">RFID registered successfully!</p>`;
+            } else {
+                document.getElementById('res').innerHTML = `<p class="text-red-500">Error registering RFID. Please try again.</p>`;
+            }
+        }
+
+        function resetForm() {
+            document.querySelector('form').reset();
+            document.getElementById('picture-error').style.display = 'none';
+            document.getElementById('res').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

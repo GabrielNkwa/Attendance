@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,187 +5,88 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Registration</title>
-    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../assets/vendors/jquery-bar-rating/css-stars.css" />
-    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="path-to/node_modules/font-awesome/css/font-awesome.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
-    <link rel="stylesheet" href="../assets/css/demo_1/style.css" />
     <script src="js/qrcode.js"></script>
     <script src="js/html2canvas.min.js"></script>
     <script src="scrp.js"></script>
-    <!-- End layout styles -->
-    <link rel="shortcut icon" href="../assets/images/favicon.png" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
 </head>
-<body>
-    <div class="container-fluid page-body-wrapper">
-        <div class="col-12 grid-margin">
-          <h3 id="info" style="display: none;"></h3>
-            <div class="card">
-              <div class="card-body">
-                <h3 class="card-title">Employee Data Form</h3>
-                <form class="form-sample">
-                  <p class="card-description">Personal info</p>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">First Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="firstname" onchange="clearDraw()">
-                        </div>
-                      </div>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a class="text-white text-lg font-semibold" href="#">Attendance System</a>
+            <ul class="flex space-x-4">
+                <li><a class="text-white" href="/">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 id="info" class="hidden"></h3>
+            <h3 class="text-2xl font-semibold text-gray-700 mb-4">Employee Data Form</h3>
+            <form class="space-y-4">
+                <p class="text-lg font-medium text-gray-600">Personal info</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block text-gray-600">First Name</label>
+                        <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded" id="firstname" onchange="clearDraw()">
                     </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Last Name</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="lastname" onchange="clearDraw()">
-                        </div>
-                      </div>
+                    <div class="form-group">
+                        <label class="block text-gray-600">Last Name</label>
+                        <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded" id="lastname" onchange="clearDraw()">
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Gender</label>
-                        <div class="col-sm-9">
-                          <select class="form-control" id="gender">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block text-gray-600">Gender</label>
+                        <select class="form-control mt-1 p-2 border border-gray-300 rounded" id="gender">
                             <option selected disabled></option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                          </select>
-                        </div>
-                      </div>
+                        </select>
                     </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Date of Birth</label>
-                        <div class="col-sm-9">
-                          
-                          <input class="form-control" type="date" id="dob">
-                        </div>
-                      </div>
-                    </div>
+                    <div class="form-group">
+                      <label class="block text-gray-600">Staff ID</label>
+                      <input type="text" class="form-control mt-1 p-2 border border-gray-300 rounded" id="cid" onchange="clearDraw()">
                   </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Department</label>
-                        <div class="col-sm-9">
-                          <select class="form-control" id="department">
-                            <option selected disabled></option>
-                            <option value="Human Resources">Human Resources</option>
-                            <option value="Software Enginneering">Software Engineering</option>
-                            <option value="Business Development">Business Development</option>
-                            <option value="Network Engineering">Network Engineering</option>
-                            <option value="Management">Management</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Position</label>
-                          <div class="col-sm-9">
-                            <select class="form-control" id="position">
-                              <option value="Manager">Manager</option>
-                              <option value="Senior Software Engineer II">Senior Software Engineer II</option>
-                              <option value="Senior Software Engineer I">Senior Software Engineer I</option>
-                              <option value="Software Engineer II">Software Engineer II</option>
-                              <option value="Software Engineer I">Software Engineer I</option>
-                              <option value="Sales Manager">Sales Manager</option>
-                              <option value="Account Manager">Account Manager</option>
-                              <option value="C-Level">C-Level</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <p class="card-description">Address</p>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Address 1</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="address1">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">State</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="state">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Address 2</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="address2">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Postcode</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="postcode">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">City</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="city">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Country</label>
-                        <div class="col-sm-9">
-                          <select class="form-control" id="country">
-                            <option>Nigeria</option>
-                            <option>Ghana</option>
-                            <option>Morroco</option>
-                            <option>Japan</option>
-                          </select>
-    
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-    
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <button type="button" class="btn btn-outline-primary btn-icon-text" onclick="solve()">
-                  <i class="mdi mdi-file-check btn-icon-prepend"></i> Submit </button>
+                   
                 </div>
-      
-              <div class="col-md-4">
-                <button type="button" class="btn btn-outline-warning btn-icon-text" onclick="reset()">
-                  <i class="mdi mdi-reload btn-icon-prepend"></i> Reset </button>
-              </div>
-            </div>
-            
-            <div id="res">
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block text-gray-600">Directorate</label>
+                        <select class="form-control mt-1 p-2 border border-gray-300 rounded" id="directorate" name="directorate">
+                            <option selected disabled></option>
+                            <option value="DPPR">DPPR</option>
+                            <option value="DNPT">DNPT</option>
+                            <option value="DLSO">DLSO</option>
+                            <option value="DCS">DCS</option>
+                            <option value="DCYBER">DCYBER</option>
+                            <option value="DEO">DEO</option>
+                            <option value="DOA">DOA</option>
+                            <option value="DLOG">DLOG</option>
+                            <option value="DFA">DFA</option>
+                            <option value="CDSA">OFFICE OF THE CDSA</option>
+                            <option value="DCDSA">OFFICE OF THE DCDSA</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                
+               
+              
+                
+            </form>
+        </div>
+        <div class="flex justify-between mt-4">
+            <button type="button" class="btn btn-outline-primary" onclick="solve()">
+                <i class="mdi mdi-file-check"></i> Submit
+            </button>
+            <button type="button" class="btn btn-outline-warning" onclick="reset()">
+                <i class="mdi mdi-reload"></i> Reset
+            </button>
+        </div>
+        <div id="res" class="mt-4"></div>
+    </div>
 </body>
 </html>
